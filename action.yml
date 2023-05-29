@@ -1,0 +1,26 @@
+name: 'Setup Evo.lua environment'
+description: 'Setup an Evo.lua environment by downloading a specific runtime version and adding it to the PATH.'
+author: 'Evo.lua authors'
+branding:
+  icon: code
+  color: green
+
+inputs:
+  version:
+    description: 'Version tag of the release to download.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install dependencies
+      run: chmod +x install-dependencies.sh && ./install-dependencies.sh
+      shell: bash
+
+    - name: Download tagged release
+      run: chmod +x download-release.sh && ./download-release.sh ${{ inputs.version }}
+      shell: bash
+      
+    - name: Add executable to PATH
+      run: echo "$(pwd)" >> $GITHUB_PATH
+      shell: bash

@@ -13,6 +13,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Install wget (Windows only))
+      if: runner.os == 'Windows'
+      run: choco install wget -y
+      shell: powershell
+
+    - name: Download installer scripts
+      run: wget https://github.com/evo-lua/evo-setup-action/raw/main/install-dependencies.sh && wget https://github.com/evo-lua/evo-setup-action/raw/main/download-release.sh
+      shell: bash
+
     - name: Install dependencies
       run: chmod +x install-dependencies.sh && ./install-dependencies.sh
       shell: bash
